@@ -35,7 +35,7 @@ app.get('/', (req, res) =>
   res.json({ message: 'Weather Data API — running', uptime: process.uptime() })
 );
 
-// Error handler (must be last)
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
