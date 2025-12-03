@@ -17,7 +17,41 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Swagger UI with custom styling
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCss: `
+      .swagger-ui .topbar {
+        background-color: #0d1117 !important;
+        border-bottom: 2px solid #30363d !important;
+      }
+
+      .swagger-ui .topbar .download-url-wrapper {
+        display: none !important;
+      }
+
+      .swagger-ui .opblock-summary {
+        background: #f7f7f7 !important;
+        border-radius: 8px !important;
+      }
+
+      .swagger-ui .opblock.opblock-get {
+        border-color: #61affe !important;
+      }
+
+      .swagger-ui .opblock.opblock-post {
+        border-color: #49cc90 !important;
+      }
+
+      body {
+        background: #fafafa !important;
+      }
+    `
+  })
+);
 
 const limiter = rateLimit({
   windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 60_000),
@@ -29,13 +63,11 @@ app.use(limiter);
 
 // Routes
 app.use('/weather', weatherRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Root
 app.get('/', (req, res) =>
   res.json({ message: 'Weather Data API — running', uptime: process.uptime() })
 );
-
 
 app.use(errorHandler);
 
