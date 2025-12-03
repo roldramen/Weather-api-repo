@@ -18,17 +18,16 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Serve static files (needed for custom Swagger CSS)
-app.use(express.static('public'));
+app.use('/public', express.static('public'));
 
-// Swagger UI with external custom CSS (works on Vercel)
 app.use(
   '/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
-    customCssUrl: '/swagger-custom.css'
+    customCssUrl: '/public/swagger-custom.css'
   })
 );
+
 
 const limiter = rateLimit({
   windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 60_000),
