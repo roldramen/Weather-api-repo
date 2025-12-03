@@ -48,3 +48,14 @@ router.delete('/:id',
 );
 
 module.exports = router;
+
+/**
+ * @swagger
+ * /weather:
+ *   get:
+ *     summary: Get all weather records
+ *     responses:
+ *       200:
+ *         description: A list of weather data
+ */
+router.get('/', ctrl.getAll);
