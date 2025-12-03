@@ -27,19 +27,10 @@ app.use(morgan('dev'));
 // Static files (ensures swagger-custom.css loads correctly)
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-/* ---------------------------------------------
-   SWAGGER UI (with Custom CSS Theme)
----------------------------------------------- */
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, {
-    customCssUrl: '/static/swagger-custom.css', // Load from /public folder
-    customSiteTitle: 'Weather Data API Docs',
-    customfavIcon: '/static/favicon.png' // optional
-  })
-);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Student API Documentation'
+}));
 /* ---------------------------------------------
    RATE LIMITER
 ---------------------------------------------- */

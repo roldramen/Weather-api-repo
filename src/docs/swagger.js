@@ -6,32 +6,45 @@ const options = {
     info: {
       title: 'Weather Data API',
       version: '1.0.0',
-      description: 'API for creating and reading weather observations'
+      description: 'A comprehensive REST API for managing weather data records with full CRUD operations, search functionality, and validation.',
+      contact: {
+        name: 'API Support',
+        email: 'support@example.com'
+      }
     },
-    servers: [{ url: process.env.BASE_URL || 'http://localhost:3000', description: 'Local server' }]
+    servers: [
+      {
+        url: process.env.NODE_ENV === 'production' 
+          ? 'https://your-app.vercel.app'
+          : `http://localhost:${process.env.PORT || 3000}`,
+        description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server'
+      }
+    ],
+    tags: [
+      {
+        name: 'Weather',
+        description: 'Weather data management endpoints'
+      }
+    ],
+    components: {
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'x-api-key',
+          description: 'API key for authentication (optional in development)'
+        }
+      }
+    },
+    security: [
+      {
+        ApiKeyAuth: []
+      }
+    ]
   },
-  apis: ['./src/routes/*.js', './src/models/*.js']
+  apis: ['./routes/*.js'] // Path to the API routes
 };
 
 const swaggerSpec = swaggerJsdoc(options);
-
-// You can add examples programmatically
-swaggerSpec.components = swaggerSpec.components || {};
-swaggerSpec.components.schemas = {
-  Weather: {
-    type: 'object',
-    properties: {
-      locationName: { type: 'string', example: 'Puerto Princesa' },
-      lat: { type: 'number', example: 9.742 },
-      lon: { type: 'number', example: 118.754 },
-      timestamp: { type: 'string', format: 'date-time', example: '2025-11-19T10:00:00Z' },
-      tempC: { type: 'number', example: 30 },
-      humidity: { type: 'number', example: 78 },
-      windSpeedKph: { type: 'number', example: 12.3 },
-      conditions: { type: 'string', example: 'Partly cloudy' },
-      source: { type: 'string', example: 'openweather' }
-    }
-  }
-};
 
 module.exports = swaggerSpec;
