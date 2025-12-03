@@ -1,0 +1,25 @@
+.swagger-ui .topbar {
+  background-color: #0d1117 !important;
+  border-bottom: 2px solid #30363d !important;
+}
+
+.swagger-ui .topbar .download-url-wrapper {
+  display: none !important;
+}
+
+.swagger-ui .opblock-summary {
+  background: #f7f7f7 !important;
+  border-radius: 8px !important;
+}
+
+.swagger-ui .opblock.opblock-get {
+  border-color: #61affe !important;
+}
+
+.swagger-ui .opblock.opblock-post {
+  border-color: #49cc90 !important;
+}
+
+body {
+  background: #fafafa !important;
+}

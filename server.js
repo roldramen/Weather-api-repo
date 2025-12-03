@@ -18,38 +18,15 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Swagger UI with custom styling
+// Serve static files (needed for custom Swagger CSS)
+app.use(express.static('public'));
+
+// Swagger UI with external custom CSS (works on Vercel)
 app.use(
   '/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
-    customCss: `
-      .swagger-ui .topbar {
-        background-color: #0d1117 !important;
-        border-bottom: 2px solid #30363d !important;
-      }
-
-      .swagger-ui .topbar .download-url-wrapper {
-        display: none !important;
-      }
-
-      .swagger-ui .opblock-summary {
-        background: #f7f7f7 !important;
-        border-radius: 8px !important;
-      }
-
-      .swagger-ui .opblock.opblock-get {
-        border-color: #61affe !important;
-      }
-
-      .swagger-ui .opblock.opblock-post {
-        border-color: #49cc90 !important;
-      }
-
-      body {
-        background: #fafafa !important;
-      }
-    `
+    customCssUrl: '/swagger-custom.css'
   })
 );
 
